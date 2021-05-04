@@ -9,38 +9,39 @@ app.get('/', (req, res) => {
   res.send(`Bem-vinda ${candidato}!`);
 });
 
-app.get('/actuator/health', (req, res) => {
+app.get('/actuator/health', (req, res, next) => {
   const healthcheck = process.env.STATUS || 'UP';
   res.send(`Status APP = ${healthcheck}!`);
+  console.log(req);
 });
 
-var log4js = require('log4js');
-    log4js.configure({
-        "appenders": [
-            {
-                "category": "tests", 
-                "type": "logLevelFilter",
-                "level": "WARN",
-                "appender": {
-                    "type": "log4js-elasticsearch",
-                    "url": "http://127.0.0.1:9200"
-                }
-            },
-            { 
-                "category": "tests", 
-                "type": "console"
-            }
-        ],
-        "levels": {
-            "tests":  "DEBUG"
-        }
-    });
+const log4js = require('log4js');
 
-    var log = log4js.getLogger('tests');
-    
-    log.error('hello hello');
-
-    if (setTimeout(function() {}).unref === undefined) {
-        console.log('force flushing and goodbye for node <= 0.8');
-        require('log4js-elasticsearch').flushAll(true);
+log4js.configure({
+  appenders: {
+    console: {
+      type: 'console'
+    },
+    logstash: {
+      url: 'http://elastic:changeme@10.15.1.3:9200/_bulk',
+      type: '@log4js-node/logstash-http',
+      logType: 'application',
+      logChannel: 'node',
+      application: 'logstash-log4js',
+      layout: {
+        type: 'pattern',
+        pattern: '%m'
+      }
     }
+  },
+  categories: {
+    default: { appenders: ['console', 'logstash'], level: 'info' }
+  }
+});
+
+const logger = log4js.getLogger('myLogger')
+;
+logger.addContext('requestId', '123');
+logger.info('some interesting log message $s');
+logger.error('something has gone wrong'), err;
+ 
