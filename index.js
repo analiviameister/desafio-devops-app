@@ -27,10 +27,10 @@ log4js.configure({
       type: '@log4js-node/logstash-http',
       logType: 'application',
       logChannel: 'node',
-      application: 'logstash-log4js',
+      application: 'app-mutant',
       layout: {
         type: 'pattern',
-        pattern: '%m-%d'
+        pattern: '%m'
       }
     }
   },
@@ -39,8 +39,8 @@ log4js.configure({
   }
 });
 
-const logger = log4js.getLogger('myLogger')
-;
+const logger = log4js.getLogger('Log App Mutant');
+
 logger.addContext('requestId', '123');
 logger.info('some interesting log message $s');
 logger.error('something has gone wrong');
