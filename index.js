@@ -15,8 +15,32 @@ app.get('/actuator/health', (req, res) => {
 });
 
 var log4js = require('log4js');
-var esAppenderConfig = {
-  url: 'http://elastic:changeme@10.15.1.3:9200'
-};
-var log4jsESAppender = require('log4js-elasticsearch').configure(esAppenderConfig);
-log4js.addAppender(log4js, 'tests');
+    log4js.configure({
+        "appenders": [
+            {
+                "category": "tests", 
+                "type": "logLevelFilter",
+                "level": "WARN",
+                "appender": {
+                    "type": "log4js-elasticsearch",
+                    "url": "http://127.0.0.1:9200"
+                }
+            },
+            { 
+                "category": "tests", 
+                "type": "console"
+            }
+        ],
+        "levels": {
+            "tests":  "DEBUG"
+        }
+    });
+
+    var log = log4js.getLogger('tests');
+    
+    log.error('hello hello');
+
+    if (setTimeout(function() {}).unref === undefined) {
+        console.log('force flushing and goodbye for node <= 0.8');
+        require('log4js-elasticsearch').flushAll(true);
+    }
