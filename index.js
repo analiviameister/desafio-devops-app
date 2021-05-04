@@ -39,4 +39,12 @@ log4js.configure({
 });
 
 const logger = log4js.getLogger('myLogger');
-logger.info('Test log message %s', 'arg1', 'arg2');
+
+logger.info("Received request", {
+  request: {
+      path: "/",
+      headers: {
+          "content-type": "application/json"
+      }
+  }
+}); 
