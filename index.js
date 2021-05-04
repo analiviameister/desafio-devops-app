@@ -51,9 +51,6 @@ logger.info("Received request", {
 
 logger.debug("Received request", {
   request: {
-      path: "/",
-      headers: {
-          "content-type": "application/json"
-      }
+      path: "/"
   }
 }); 
