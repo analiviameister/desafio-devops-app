@@ -49,8 +49,8 @@ logger.info("Received request", {
   }
 }); 
 
-logger.debug("Received request", {
+logger.debug("Received request %m", {
   request: {
       path: "/"
   }
-}); 
+});
