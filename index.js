@@ -30,7 +30,7 @@ log4js.configure({
       application: 'logstash-log4js',
       layout: {
         type: 'pattern',
-        pattern: '%m'
+        pattern: '%m-%d'
       }
     }
   },
