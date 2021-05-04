@@ -39,7 +39,7 @@ log4js.configure({
 });
 
 const logger = log4js.getLogger('myLogger');
-
-logger.info("Received request ", port)
+const log = console.log(app.get)
+logger.info("Received request ", log)
 
  
