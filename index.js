@@ -10,8 +10,33 @@ app.get('/', (req, res) => {
 });
 
 app.get('/actuator/health', (req, res) => {
-  const healthcheck = process.env.STATUS || '200';
-  res.send(`UP - Status Code = ${healthcheck}!`);
+  const healthcheck = process.env.STATUS || 'UP';
+  res.send(`Status APP = ${healthcheck}!`);
 });
 
+const log4js = require('../lib/log4js');
 
+log4js.configure({
+  appenders: {
+    console: {
+      type: 'console'
+    },
+    logstash: {
+      url: 'http://10.15.1.3:9200/_bulk',
+      type: '@log4js-node/logstash-http',
+      logType: 'application',
+      logChannel: 'node',
+      application: 'logstash-log4js',
+      layout: {
+        type: 'pattern',
+        pattern: '%m'
+      }
+    }
+  },
+  categories: {
+    default: { appenders: ['console', 'logstash'], level: 'info' }
+  }
+});
+
+const logger = log4js.getLogger('myLogger');
+logger.info('Test log message %s', 'arg1', 'arg2');
