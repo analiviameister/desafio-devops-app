@@ -34,20 +34,11 @@ log4js.configure({
     }
   },
   categories: {
-    default: { appenders: ['console', 'logstash'], level: 'debug' }
+    default: { appenders: ['console', 'logstash'], level: 'info' }
   }
 });
 
 const logger = log4js.getLogger('myLogger');
 
-logger.info("Received request", {
-  request: {
-      path: "/",
-      headers: {
-          "content-type": "application/json"
-      }
-  }
-}); 
-
-logger.debug("Received request ", app)
+logger.info("Received request ", app)
  
