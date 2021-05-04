@@ -14,31 +14,9 @@ app.get('/actuator/health', (req, res) => {
   res.send(`Status APP = ${healthcheck}!`);
 });
 
-const log4js = require('log4js');
-
-log4js.configure({
-  appenders: {
-    console: {
-      type: 'console'
-    },
-    logstash: {
-      url: 'http://10.15.1.3:9200/_bulk',
-      type: '@log4js-node/logstash-http',
-      logType: 'application',
-      logChannel: 'node',
-      application: 'logstash-log4js',
-      layout: {
-        type: 'pattern',
-        pattern: '%m'
-      }
-    }
-  },
-  categories: {
-    default: { appenders: ['console', 'logstash'], level: 'info' }
-  }
-});
-
-const logger = log4js.getLogger('myLogger');
-logger.info("Received request ", app.get)
-
- 
+var log4js = require('log4js');
+var esAppenderConfig = {
+  url: 'http://elastic:changeme@10.15.1.3:9200'
+};
+var log4jsESAppender = require('log4js-elasticsearch').configure(esAppenderConfig);
+log4js.addAppender(log4js, 'tests');
