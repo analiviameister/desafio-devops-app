@@ -43,5 +43,5 @@ const logger = log4js.getLogger('myLogger')
 ;
 logger.addContext('requestId', '123');
 logger.info('some interesting log message $s');
-logger.error('something has gone wrong'), err;
+logger.error('something has gone wrong');
  
