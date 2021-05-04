@@ -14,7 +14,7 @@ app.get('/actuator/health', (req, res) => {
   res.send(`Status APP = ${healthcheck}!`);
 });
 
-const log4js = require('lib/log4js');
+const log4js = require('lib/log4js.js');
 
 log4js.configure({
   appenders: {
