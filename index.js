@@ -40,6 +40,6 @@ log4js.configure({
 
 const logger = log4js.getLogger('myLogger');
 
-logger.info("Received request ", candidato)
-logger.info("Check", healthcheck)
+logger.info("Received request ", port)
+
  
